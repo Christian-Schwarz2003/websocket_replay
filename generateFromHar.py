@@ -1,4 +1,6 @@
 import json
+import os
+import time
 
 if __name__ == '__main__':
     with open('input.har', 'r') as f:
@@ -10,5 +12,7 @@ if __name__ == '__main__':
         if message['type'] == 'receive':
             out.append({'dt': message['time'] - tLast, 'data': message['data']})
             tLast = message['time']
-    with open('websocket.json', 'w') as f:
+    if not os.path.exists('output'):
+        os.makedirs('output')
+    with open(f'output/websocketData_{time.time()}.json', 'w') as f:
         json.dump(out, f, indent=2)
